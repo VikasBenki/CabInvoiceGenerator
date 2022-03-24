@@ -44,16 +44,18 @@ namespace CabInvoiceGeneratorProb
             }
         }
 
-        // UC2 - Method to calculate agreegate fare for multiple rides
-        public double CalculateAgreegateFare(Ride[] rides)
+        // UC2 - Method to calculate agreegate fare for multiple rides and return Invoice summary
+        public InvoiceSummary CalculateAgreegateFare(Ride[] rides)
         {
             double totalFare = 0;
             if (rides.Length == 0)
                 throw new CabInvoiceGeneratorException(CabInvoiceGeneratorException.ExceptionType.NULL_RIDES, "No Rides Found");
             foreach (var ride in rides)
+            {
                 totalFare += CalculateFare(ride.time, ride.distance);
-            double agreegateFare = Math.Max(totalFare, MINIMUM_FARE);
-            return agreegateFare;
+            }
+            //double agreegateFare = Math.Max(totalFare, MINIMUM_FARE);
+            return new InvoiceSummary(rides.Length, totalFare);
         }
     }
 }
